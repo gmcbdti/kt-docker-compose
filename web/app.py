@@ -12,13 +12,13 @@ host = socket.gethostname()
 @swirl.restapi('/v1/system/info')
 class InfoHandler(tornado.web.RequestHandler):
 
-    def get(self):
+    async def get(self):
         """Recupera informações.
 
         Recupera o nome de host do container e a contagem de acessos no endpoint.
 
-        Path Parameter:
-            #
+        200 Response:
+            info (SystemInfo) -- SystemInfo object
 
         Tags:
             Sistema
@@ -29,6 +29,7 @@ class InfoHandler(tornado.web.RequestHandler):
         self.write(json.dumps(s_info, default=lambda o: o.__dict__,
                           sort_keys=True, indent=4))
         self.set_header('Content-Type', 'application/json')
+        self.finish()
 
 
 @swirl.schema
