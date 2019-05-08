@@ -4,6 +4,8 @@ services:
     build:
      context: web
      dockerfile: Dockerfile
+    environment:
+      REDIS_HOST: redis
     labels:
       - "traefik.frontend.rule=Host:web.localhost"
   redis:

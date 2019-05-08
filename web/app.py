@@ -1,46 +1,33 @@
 import socket
 import tornado.web
-import tornado.gen
-
+import json
+import os
 import tornado_swirl as swirl
 from redis import Redis
 
-
-@swirl.restapi('/item/(?P<itemid>\d+)')
-class ItemHandler(tornado.web.RequestHandler):
-    redis = Redis(host='redis', port=6379)
-    host = socket.gethostname()
-
-    def get(self, itemid):
-        """Get Item data.
-
-        Gets Item data from database.
-
-        Path Parameter:
-            itemid (int) -- The item id
-
-        Tags:
-            items
-        """
-        self.redis.incr('hits')
-        hits = self.redis.get('hits')
-
-        self.write('\nHello World!\nI have been seen %s times.\nMy Host name is %s\n\n' % (hits, self.host))
+redis = Redis(host=os.environ.get('REDIS_HOST'), port=6379)
+host = socket.gethostname()
 
 
-@swirl.schema
-class User(object):
-    """This is the user class
+@swirl.restapi('/')
+class InfoHandler(tornado.web.RequestHandler):
 
-    Your usual long description.
+    def get(self):
+        """Recupera informações.
 
-    Properties:
-        name (string) -- required.  Name of user
-        age (int) -- Age of user
+               Recupera o nome de host do container e a contagem de acessos no endpoint.
 
-    """
-    pass
+               Path Parameter:
+                   # itemid (int) -- The item id
 
+               Tags:
+                   info
+               """
+        redis.incr('hits')
+
+        info = {"host": host, "hits": str(redis.get('hits'))}
+        self.write(json.dumps(info, sort_keys=True, indent=4))
+        self.set_header('Content-Type', 'application/json')
 
 def make_app():
     return swirl.Application(swirl.api_routes())
