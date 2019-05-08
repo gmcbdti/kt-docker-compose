@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    build:
+     context: web
+     dockerfile: Dockerfile
+    environment:
+      REDIS_HOST: redis
+    labels:
+      - "traefik.frontend.rule=Host:web.localhost"
+  redis:
+    image: redis
+
+  reverse-proxy:
+    image: traefik
+    command: --api --docker --logLevel="DEBUG" --accesslog # Enables the web UI and tells Traefik to listen to docker
+    ports:
+      - "80:80"     # The HTTP port
+      - "8080:8080" # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+
+
