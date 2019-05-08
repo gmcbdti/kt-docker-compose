@@ -9,31 +9,44 @@ redis = Redis(host=os.environ.get('REDIS_HOST'), port=6379)
 host = socket.gethostname()
 
 
-@swirl.restapi('/')
+@swirl.restapi('/v1/system/info')
 class InfoHandler(tornado.web.RequestHandler):
 
     def get(self):
         """Recupera informações.
 
-               Recupera o nome de host do container e a contagem de acessos no endpoint.
+        Recupera o nome de host do container e a contagem de acessos no endpoint.
 
-               Path Parameter:
-                   # itemid (int) -- The item id
+        Path Parameter:
+            #
 
-               Tags:
-                   info
-               """
+        Tags:
+            Sistema
+
+        """
         redis.incr('hits')
-
-        info = {"host": host, "hits": str(redis.get('hits'))}
-        self.write(json.dumps(info, sort_keys=True, indent=4))
+        s_info = SystemInfo(host=host, hits=int(redis.get('hits')))
+        self.write(json.dumps(s_info, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4))
         self.set_header('Content-Type', 'application/json')
 
-def make_app():
-    return swirl.Application(swirl.api_routes())
 
+@swirl.schema
+class SystemInfo(object):
+    """This is the system_info class
+
+    System Information
+
+    Properties:
+        host (string) -- required. Hostname
+        hits (int) --  required. System Hits
+
+    """
+    def __init__(self, host="", hits=0):
+        self.host = host
+        self.hits = hits
 
 if __name__ == "__main__":
-    app = make_app()
+    app = swirl.Application(swirl.api_routes())
     app.listen(80)
     tornado.ioloop.IOLoop.current().start()

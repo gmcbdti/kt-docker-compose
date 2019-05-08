@@ -5,7 +5,7 @@ Mostrar a possibilidade de declarar vários contêineres em um arquivo, possibil
 1) Criar, excluir, parar, iniciar e reiniciar todos os contêineres de uma só vez apenas com um comando.
 2) Permitir que os contêineres comuniquem entre si usando como hostname o nome do serviço.
 3) Permitir que os contêineres exponham no ip externo apenas as portas dos serviços que precisam ser acessados de fora. 
-4) Permitir que várias instâncias do mesmo contêiner sejam criadas e passem a operar dinamicamente, a princípio, otimizando o uso das threads do servidor e ao mesmo tempo, possibilitando o desenvolvimento local, de sistemas arquitetados para rodar em clusters como o Docker Swarm e o Kubernetes
+4) Permitir que várias instâncias do mesmo contêiner sejam criadas e passem a operar dinamicamente, a princípio, otimizando o uso das threads do servidor e ao mesmo tempo, possibilitando o desenvolvimento local, de sistemas arquitetados para rodar em clusters, como o Docker Swarm e o Kubernetes
 
 
 ## Linux:
@@ -38,4 +38,4 @@ docker-compose up -d --scale web=5
 
 #### Quem preferir, pode usar o curl ao invés do Swagger:
 
-curl --header 'Host: web.localhost' 'http://localhost:80/' 
+curl --header 'Host: web.localhost' 'http://web.localhost/v1/system/info' 
