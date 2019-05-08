@@ -14,13 +14,13 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-
 
 sudo chmod +x /usr/local/bin/docker-compose
 
-##Windows:
+## Windows:
 #### Editar o arquivo hosts no Windows
 Abrir o cmd.exe com permissões de administrador
 
 notepad \Windows\System32\drivers\etc\hosts
 
-#####Adicionar a linha:
+##### Adicionar a linha:
 
 127.0.0.1 web.localhost
 
@@ -34,8 +34,8 @@ http://web.localhost/swagger/spec.htm
 ##### Modificar o número de instâncias do microerviço:
 docker-compose up -d --scale web=5
 
-#####Agora bater mais vezes no endpoint
+##### Agora bater mais vezes no endpoint
 
-####Quem preferir, pode usar o curl ao invés do Swagger:
+#### Quem preferir, pode usar o curl ao invés do Swagger:
 
 curl --header 'Host: web.localhost' 'http://localhost:80/' 
