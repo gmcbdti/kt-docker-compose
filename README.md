@@ -17,7 +17,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 ## Windows:
 #### Instalar docker-compose no Window
 ##### Via Chocolatey https://chocolatey.org/docs/installation :
-https://chocolatey.org/docs/installation
+choco install docker-compose
 
 #### Editar o arquivo hosts no Windows
 Abrir o cmd.exe com permissões de administrador
