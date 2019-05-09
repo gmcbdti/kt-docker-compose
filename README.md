@@ -30,7 +30,7 @@ putty -load "Default Settings" HOSTNAME -l USERNAME -L 80:localhost:80
 
 
 ##### Acessar o Swagger pela url e bater algumas vezes no endpoint
-http://web.localhost/swagger/spec.htm
+http://web.localhost/swagger/spec.html
 ##### Modificar o número de instâncias do microerviço:
 docker-compose up -d --scale web=5
 
